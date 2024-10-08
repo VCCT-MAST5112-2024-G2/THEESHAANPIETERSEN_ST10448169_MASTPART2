@@ -1,6 +1,6 @@
 // screens/HomeScreen.tsx
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types';
 
@@ -23,7 +23,7 @@ export default function HomeScreen({ navigation, route }: HomeScreenProps) {
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AddMenu')}>
           <Text style={styles.buttonText}>Add Menu</Text>
         </TouchableOpacity>
-`        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('FilterMenu')}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('FilterMenu')}>
           <Text style={styles.buttonText}>Filtered Menu</Text>
         </TouchableOpacity>
       </View>
@@ -39,7 +39,7 @@ export default function HomeScreen({ navigation, route }: HomeScreenProps) {
           <View style={styles.menuItem}>
             <Text style={styles.dishTitle}>{item.dishName} - {item.course}</Text>
             <Text style={styles.dishDesc}>{item.description}</Text>
-            <Text style={styles.dishPrice}>R {item.price.toFixed(2)}</Text>
+            <Text style={styles.dishPrice}>{item.price.toFixed(2)}</Text>
           </View>
         )}
       />
