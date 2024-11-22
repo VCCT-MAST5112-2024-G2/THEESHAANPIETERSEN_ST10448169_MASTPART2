@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, FlatList, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types';
@@ -63,7 +63,7 @@ export default function AddMenuScreen({ navigation, route }: AddMenuScreenProps)
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.title}>Manage Menu Items</Text>
 
       {/* Add Item Form */}
@@ -109,52 +109,51 @@ export default function AddMenuScreen({ navigation, route }: AddMenuScreenProps)
 
       {/* Display Existing Items */}
       <Text style={styles.sectionTitle}>Current Menu Items</Text>
-      <View style={styles.menuListContainer}>
-        {menuItems.length === 0 ? (
-          <Text style={styles.emptyText}>No menu items available</Text>
-        ) : (
-          menuItems.map((item, index) => (
-            <View key={index} style={styles.menuItem}>
-              <View style={styles.itemDetails}>
-                <Text style={styles.itemName}>{item.dishName} - {item.course}</Text>
-                <Text>{item.description}</Text>
-                <Text>R{item.price.toFixed(2)}</Text>
-              </View>
-              <TouchableOpacity
-                style={styles.deleteButton}
-                onPress={() => handleDeleteItem(index)}
-              >
-                <Text style={styles.deleteText}>Delete</Text>
-              </TouchableOpacity>
+      <FlatList
+        data={menuItems}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={({ item, index }) => (
+          <View style={styles.menuItem}>
+            <View style={styles.itemDetails}>
+              <Text style={styles.itemName}>{item.dishName} - {item.course}</Text>
+              <Text>{item.description}</Text>
+              <Text>R{item.price.toFixed(2)}</Text>
             </View>
-          ))
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() => handleDeleteItem(index)}
+            >
+              <Text style={styles.deleteText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
         )}
-      </View>
+        ListEmptyComponent={<Text style={styles.emptyText}>No menu items available</Text>}
+      />
 
       {/* Save and Exit Button */}
       <TouchableOpacity style={styles.saveButton} onPress={handleSaveAndExit}>
         <Text style={styles.saveButtonText}>Save and Exit</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: '#F00',
     flex: 1,
+    padding: 20,
+    backgroundColor: '#f00',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#FFF',
+    color: '#fff',
   },
   label: {
     fontSize: 16,
     marginBottom: 5,
-    color: '#FFF',
+    color: '#fff',
   },
   input: {
     backgroundColor: '#FFF',
@@ -185,10 +184,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#FFF',
-  },
-  menuListContainer: {
-    marginBottom: 20,
+    color: '#fff',
   },
   menuItem: {
     flexDirection: 'row',
